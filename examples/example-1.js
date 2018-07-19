@@ -1,6 +1,6 @@
 var StellarSdk = require('stellar-sdk')
-var keys = require('./keys')
-var issuer = require('./tokenIssuer')
+var keys = require('./utils/keys')
+var issuer = require('./utils/api/tokenIssuer')
 
 
 var server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
