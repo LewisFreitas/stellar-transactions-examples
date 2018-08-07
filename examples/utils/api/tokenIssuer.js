@@ -1,10 +1,11 @@
 var StellarSdk = require('stellar-sdk')
-var keys = require('./keys')
+var keys = require('./../keys')
+var env = require('./../env')
 
 
 var server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
 /*Comment this to operate on main net*/
-StellarSdk.Network.useTestNetwork();
+env.isTest ? StellarSdk.Network.useTestNetwork() : null
 
 module.exports = {
   changeTrustDistributor: function(tokenIssuerPublicKey, tokenIssuerKeyPair, distributorPublicKey, distributorKeyPair, assetCode){
