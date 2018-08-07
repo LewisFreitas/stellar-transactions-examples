@@ -2,14 +2,12 @@ var StellarSdk = require('stellar-sdk')
 var keys = require('./../keys')
 var env = require('./../env')
 
-
-var server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
 /*Comment this to operate on main net*/
 env.isTest ? StellarSdk.Network.useTestNetwork() : null
 
 module.exports = {
   changeTrustDistributor: function(tokenIssuerPublicKey, tokenIssuerKeyPair, distributorPublicKey, distributorKeyPair, assetCode){
-    server.loadAccount(distributorPublicKey)
+    env.server.loadAccount(distributorPublicKey)
       .then(function(account){
         var transaction = new StellarSdk.TransactionBuilder(account)
           .addOperation(StellarSdk.Operation.changeTrust({
@@ -19,7 +17,7 @@ module.exports = {
 
           transaction.sign(distributorKeyPair)
 
-          server.submitTransaction(transaction)
+          env.server.submitTransaction(transaction)
             .then(function(transactionResult){
               console.log(JSON.stringify(transactionResult, null, 2))
             })
@@ -30,7 +28,7 @@ module.exports = {
   },
 
   tokenCreation: function(tokenIssuerPublicKey, tokenIssuerKeyPair, distributorPublicKey, distributorKeyPair, assetCode, amount){
-    server.loadAccount(tokenIssuerPublicKey)
+    env.server.loadAccount(tokenIssuerPublicKey)
       .then(function(account){
         var transaction = new StellarSdk.TransactionBuilder(account)
           .addOperation(StellarSdk.Operation.payment({
@@ -41,7 +39,7 @@ module.exports = {
           .build()
           transaction.sign(tokenIssuerKeyPair)
 
-          server.submitTransaction(transaction)
+          env.server.submitTransaction(transaction)
             .then(function(transactionResult){
               console.log(JSON.stringify(transactionResult, null, 2))
             })
@@ -52,7 +50,7 @@ module.exports = {
   },
 
   distributeToken: function(tokenIssuerPublicKey, tokenIssuerKeyPair, distributorPublicKey, distributorKeyPair, assetCode, amount, price){
-    server.loadAccount(distributorPK)
+    env.server.loadAccount(distributorPK)
       .then(function(account){
         var transaction = new StellarSdk.TransactionBuilder(account)
           .addOperation(StellarSdk.Operation.manageOffer({
@@ -65,7 +63,7 @@ module.exports = {
           .build()
           transaction.sign(distributorKeyPair)
 
-          server.submitTransaction(transaction)
+          env.server.submitTransaction(transaction)
             .then(function(transactionResult){
               console.log(JSON.stringify(transactionResult, null, 2))
             })
